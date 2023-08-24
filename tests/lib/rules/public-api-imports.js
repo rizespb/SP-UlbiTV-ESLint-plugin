@@ -46,7 +46,9 @@ ruleTester.run('public-api-imports', rule, {
     },
     {
       // Это пример пути к файлу, в котором мы представляем, что есть код, указанный в свойстве code
+      // Мы находимся в файле с тестами (подходит под шаблон **/*.test.ts)
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\file.test.ts',
+      // Значит импортировать из testing public API можно, ошибок быть не должно
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
       errors: [],
       // Передаем алиас в правило
@@ -58,7 +60,10 @@ ruleTester.run('public-api-imports', rule, {
       ],
     },
     {
+      // Это пример пути к файлу, в котором мы представляем, что есть код, указанный в свойстве code
+      // Мы находимся в файле с тестами или используемомо для тестов (подходит под шаблон StoreDecorator.tsx)
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\StoreDecorator.tsx',
+      // Значит импортировать из testing public API можно, ошибок быть не должно
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
       errors: [],
       // Передаем алиас в правило
@@ -96,9 +101,16 @@ ruleTester.run('public-api-imports', rule, {
       ],
     },
     {
+      // Это пример адреса файла, в котором мы представляем, что есть код, указанный в свойстве code
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\forbidden.ts',
+      // В обычном, рабочем (продакшен) файле (которого нет в testFilesPatterns) пытаемся импортировать данные из testing public API. Так делать не надо. Ошибка
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/testing'",
-      errors: [{ message: 'Тестовые данные необходимо импортировать из publicApi/testing.ts' }],
+      errors: [
+        {
+          message:
+            'Тестовые данные необходимо импортировать из publicApi/testing.ts и только в файлы, связанные с тестами',
+        },
+      ],
       // Передаем алиас в правило
       options: [
         {
