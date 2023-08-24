@@ -18,9 +18,10 @@ const ruleTester = new RuleTester({
   parserOptions: { ecmaVersion: 6, sourceType: 'module' },
 })
 ruleTester.run('path-checker', rule, {
+  // Корректные кейсы
   valid: [
     {
-      // Это пример адреса файла, в котором мы представляем, что есть код, указанный в свойстве code
+      // Это пример пути к файлу, в котором мы представляем, что есть код, указанный в свойстве code
       filename: 'C:\\Users\\AMaklachkov\\Desktop\\SP-UlbiTV-Project\\src\\entities\\Article',
       // Это пример импортов в указанном файле
       // Тут всё корректно: внутри слайса используются относительные имопрты
@@ -29,9 +30,13 @@ ruleTester.run('path-checker', rule, {
     },
   ],
 
+  // Когда должна возникнуть ошибка
   invalid: [
     {
+      // Это пример пути к файлу, в котором мы представляем, что есть код, указанный в свойстве code
       filename: 'C:\\Users\\tim\\Desktop\\javascript\\production_project\\src\\entities\\Article',
+      // Это пример импортов в указанном файле
+      // Внутри Article нельзя использовать абсолютный импорт из Article
       code: "import { addCommentFormActions, addCommentFormReducer } from '@/entities/Article/model/slices/addCommentFormSlice'",
       // Ошибка, которую должен показать линтер
       errors: [{ message: 'В рамках одного слайса все пути должны быть относительными' }],
